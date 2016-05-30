@@ -334,6 +334,8 @@ public interface Enums extends LocalizedEnums {
 
     String ProviderType___OPENSTACK_VOLUME();
 
+    String ProviderType___KUBERNETES_VOLUME();
+
     // Gluster enums
     String GlusterVolumeType___DISTRIBUTE();
 

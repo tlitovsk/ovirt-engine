@@ -17,6 +17,7 @@ import org.ovirt.engine.core.common.businessentities.StoragePool;
 import org.ovirt.engine.core.common.businessentities.TenantProviderProperties;
 import org.ovirt.engine.core.common.businessentities.VDS;
 import org.ovirt.engine.core.common.businessentities.comparators.NameableComparator;
+import org.ovirt.engine.core.common.businessentities.storage.KuberVolumeProviderProperties;
 import org.ovirt.engine.core.common.businessentities.storage.OpenStackVolumeProviderProperties;
 import org.ovirt.engine.core.compat.Guid;
 import org.ovirt.engine.ui.frontend.AsyncQuery;
@@ -42,6 +43,7 @@ import org.ovirt.engine.ui.uicompat.EventArgs;
 import org.ovirt.engine.ui.uicompat.FrontendActionAsyncResult;
 import org.ovirt.engine.ui.uicompat.IEventListener;
 import org.ovirt.engine.ui.uicompat.IFrontendActionAsyncCallback;
+
 
 public class ProviderModel extends Model {
 
@@ -146,6 +148,10 @@ public class ProviderModel extends Model {
         return getType().getSelectedItem() == ProviderType.OPENSTACK_VOLUME;
     }
 
+    private boolean isTypeKubernetesVolume() {
+        return getType().getSelectedItem() == ProviderType.KUBERNETES_VOLUME;
+    }
+
     protected boolean isTypeVmware() {
         return getType().getSelectedItem() == ProviderType.VMWARE;
     }
@@ -183,6 +189,8 @@ public class ProviderModel extends Model {
                 return "http://localhost:9292"; //$NON-NLS-1$
             case OPENSTACK_VOLUME:
                 return "http://localhost:8776"; //$NON-NLS-1$
+            case KUBERNETES_VOLUME:
+                return "http://localhost:8080"; //$NON-NLS-1$
             case VMWARE:
                 return ""; //$NON-NLS-1$
             case FOREMAN:
@@ -382,6 +390,8 @@ public class ProviderModel extends Model {
             provider.setAdditionalProperties(new OpenStackImageProviderProperties());
         } else if (isTypeOpenStackVolume()) {
             provider.setAdditionalProperties(new OpenStackVolumeProviderProperties(getDataCenter().getSelectedItem().getId()));
+        } else if (isTypeKubernetesVolume()) {
+            provider.setAdditionalProperties(new KuberVolumeProviderProperties(getDataCenter().getSelectedItem().getId()));
         } else if (isTypeVmware()) {
             provider.setAdditionalProperties(getVmwarePropertiesModel().getVmwareVmProviderProperties(
                     dataCenter.getSelectedItem() != null ? dataCenter.getSelectedItem().getId() : null));

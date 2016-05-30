@@ -2,6 +2,7 @@ package org.ovirt.engine.core.bll.provider;
 
 import org.ovirt.engine.core.bll.host.provider.foreman.ForemanHostProviderProxy;
 import org.ovirt.engine.core.bll.provider.network.openstack.OpenstackNetworkProviderProxy;
+import org.ovirt.engine.core.bll.provider.storage.KuberVolumeProviderProxy;
 import org.ovirt.engine.core.bll.provider.storage.OpenStackImageProviderProxy;
 import org.ovirt.engine.core.bll.provider.storage.OpenStackVolumeProviderProxy;
 import org.ovirt.engine.core.bll.provider.vms.VmwareVmProviderProxy;
@@ -9,7 +10,9 @@ import org.ovirt.engine.core.common.businessentities.OpenStackImageProviderPrope
 import org.ovirt.engine.core.common.businessentities.OpenstackNetworkProviderProperties;
 import org.ovirt.engine.core.common.businessentities.Provider;
 import org.ovirt.engine.core.common.businessentities.VmwareVmProviderProperties;
+import org.ovirt.engine.core.common.businessentities.storage.KuberVolumeProviderProperties;
 import org.ovirt.engine.core.common.businessentities.storage.OpenStackVolumeProviderProperties;
+
 
 /**
  * The provider proxy factory can create a provider proxy according to the provider definition.
@@ -46,6 +49,9 @@ public class ProviderProxyFactory {
 
         case VMWARE:
             return (P) new VmwareVmProviderProxy((Provider<VmwareVmProviderProperties>) provider);
+
+        case KUBERNETES_VOLUME:
+            return (P) new KuberVolumeProviderProxy((Provider<KuberVolumeProviderProperties>) provider);
 
         default:
             return null;

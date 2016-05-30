@@ -15,6 +15,7 @@ import org.ovirt.engine.core.common.businessentities.Provider;
 import org.ovirt.engine.core.common.businessentities.Provider.AdditionalProperties;
 import org.ovirt.engine.core.common.businessentities.ProviderType;
 import org.ovirt.engine.core.common.businessentities.VmwareVmProviderProperties;
+import org.ovirt.engine.core.common.businessentities.storage.KuberVolumeProviderProperties;
 import org.ovirt.engine.core.common.businessentities.storage.OpenStackVolumeProviderProperties;
 import org.ovirt.engine.core.common.utils.EnumUtils;
 import org.ovirt.engine.core.compat.Guid;
@@ -59,6 +60,11 @@ public class ProviderDaoImpl extends DefaultGenericDao<Provider<?>, Guid> implem
                         (OpenStackVolumeProviderProperties) entity.getAdditionalProperties();
                 tenantName = volumeProperties.getTenantName();
                 break;
+            case KUBERNETES_VOLUME:
+                KuberVolumeProviderProperties kuberVolumeProperties =
+                            (KuberVolumeProviderProperties) entity.getAdditionalProperties();
+                 tenantName = kuberVolumeProperties.getTenantName();
+                 break;
             case VMWARE:
                 additionalProperties = entity.getAdditionalProperties();
                 break;
@@ -150,6 +156,10 @@ public class ProviderDaoImpl extends DefaultGenericDao<Provider<?>, Guid> implem
                 OpenStackVolumeProviderProperties volumeProperties = new OpenStackVolumeProviderProperties();
                 volumeProperties.setTenantName(rs.getString("tenant_name"));
                 return volumeProperties;
+            case KUBERNETES_VOLUME:
+                KuberVolumeProviderProperties kuberVolumeProperties = new KuberVolumeProviderProperties();
+                kuberVolumeProperties.setTenantName(rs.getString("tenant_name"));
+                return kuberVolumeProperties;
             case VMWARE:
                 return SerializationFactory.getDeserializer().deserialize(rs.getString("additional_properties"), VmwareVmProviderProperties.class);
             default:

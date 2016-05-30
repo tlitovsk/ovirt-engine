@@ -95,6 +95,7 @@ public class FeaturesHelper {
         if (VersionUtils.greaterOrEqual(version, BackendCapabilitiesResource.VERSION_3_6)) {
             addExternalHostProvidersFeature(features);
             addOpenStackImageProvidersFeature(features);
+            addKuberVolumeProvidersFeature(features);
             addErrataForHostsFeature(features);
             addCumulativeNetworkUsageFeature(features);
             addGuestMemoryBufferedCached(features);
@@ -549,6 +550,13 @@ public class FeaturesHelper {
         Feature feature = new Feature();
         feature.setName("OpenStack Image Providers");
         feature.setDescription("Add/modify/remove OpenStack image providers.");
+    }
+
+    private void addKuberVolumeProvidersFeature(Features features) {
+        Feature feature = new Feature();
+        feature.setName("Kubernetes Volume Providers");
+        feature.setDescription("Add/modify/remove Kubernetes volume providers.");
+        features.getFeature().add(feature);
     }
 
     private void addNetworkAttachmentsFeature(Features features) {
